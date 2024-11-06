@@ -1,0 +1,115 @@
+// List of languages
+const languages = [
+    'Hindi', 'Punjabi', 'Bengali', 'Marathi', 
+    'Gujarati', 'Tamil', 'Telugu', 'Kannada'
+];
+
+let selectedLanguage = "";
+let selectedLevel = "";
+
+// Data for each level
+const levelContent = {
+    Beginner: {
+        title: "Learn the Alphabets",
+        content: [
+            { letter: "अ", audio: "audio/hindi_a.mp3" },
+            { letter: "आ", audio: "audio/hindi_aa.mp3" },
+            // Add more letters and audio for each language
+        ]
+    },
+    Intermediate: {
+        title: "Vocabulary Examples",
+        content: [
+            { word: "घर", translation: "House" },
+            { word: "पानी", translation: "Water" },
+            // Add more words and translations
+        ]
+    },
+    Advanced: {
+        title: "Short Stories",
+        content: [
+            { story: "एक समय की बात है...", translation: "Once upon a time..." },
+            // Add more short stories with translations
+        ]
+    }
+};
+
+// Function to create language buttons
+function createLanguageButtons() {
+    const languageList = document.getElementById('languageList');
+
+    languages.forEach(language => {
+        const button = document.createElement('button');
+        button.classList.add('language-button');
+        button.textContent = language;
+        button.onclick = () => selectLanguage(language);
+        languageList.appendChild(button);
+    });
+}
+
+// Function to handle language selection
+function selectLanguage(language) {
+    selectedLanguage = language;
+    document.getElementById('selectedLanguage').textContent = `You selected ${language}.`;
+    document.getElementById('languageList').style.display = 'none';
+    document.getElementById('levelSelection').style.display = 'block';
+}
+
+// Function to handle level selection
+function selectLevel(level) {
+    selectedLevel = level;
+    document.getElementById('levelSelection').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+
+    const levelData = levelContent[level];
+    document.getElementById('contentTitle').textContent = levelData.title;
+
+    // Generate content for the selected level
+    const contentBody = document.getElementById('contentBody');
+    contentBody.innerHTML = "";
+    levelData.content.forEach(item => {
+        if (level === 'Beginner') {
+            // Display alphabet with audio
+            const letterDiv = document.createElement('div');
+            letterDiv.classList.add('content-section');
+            letterDiv.innerHTML = `<p>${item.letter}</p><button onclick="playAudio('${item.audio}')">Play Sound</button>`;
+            contentBody.appendChild(letterDiv);
+        } else if (level === 'Intermediate') {
+            // Display vocabulary words
+            const wordDiv = document.createElement('div');
+            wordDiv.classList.add('content-section');
+            wordDiv.innerHTML = `<p>${item.word} - ${item.translation}</p>`;
+            contentBody.appendChild(wordDiv);
+        } else if (level === 'Advanced') {
+            // Display short stories
+            const storyDiv = document.createElement('div');
+            storyDiv.classList.add('content-section');
+            storyDiv.innerHTML = `<p>${item.story}</p><p><em>${item.translation}</em></p>`;
+            contentBody.appendChild(storyDiv);
+        }
+    });
+}
+
+// Function to play audio
+function playAudio(audioFile) {
+    const audio = new Audio(audioFile);
+    audio.play();
+}
+
+// Function to go back to the level selection screen
+function goBackToLevel() {
+    document.getElementById('content').style.display = 'none';
+    document.getElementById('levelSelection').style.display = 'block';
+}
+
+// Function to go back to the home (language selection) screen
+function goBackToHome() {
+    selectedLanguage = "";
+    selectedLevel = "";
+    document.getElementById('languageList').style.display = 'flex';
+    document.getElementById('levelSelection').style.display = 'none';
+    document.getElementById('content').style.display = 'none';
+}
+
+// Create the language buttons when the page loads
+window.onload = createLanguageButtons;
