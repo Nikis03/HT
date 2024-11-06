@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language and Level Selection</title>
+    <style>
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <h2>Select Your Language</h2>
+    <select id="languageSelect" onchange="showLevelSelection()">
+        <option value="">-- Select Language --</option>
+        <option value="Hindi">Hindi</option>
+        <option value="Punjabi">Punjabi</option>
+        <option value="Bengali">Bengali</option>
+        <option value="Marathi">Marathi</option>
+        <option value="Gujarati">Gujarati</option>
+        <option value="Tamil">Tamil</option>
+        <option value="Telugu">Telugu</option>
+        <option value="Kannada">Kannada</option>
+    </select>
+
+    <div id="levelSection" class="hidden">
+        <h2>Select Your Level</h2>
+        <select id="levelSelect">
+            <option value="">-- Select Level --</option>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+        </select>
+        <br><br>
+        <button onclick="goBack()">Go Back</button>
+    </div>
+
+    <script>
+        function showLevelSelection() {
+            const languageSelect = document.getElementById("languageSelect");
+            const levelSection = document.getElementById("levelSection");
+
+            if (languageSelect.value) {
+                levelSection.classList.remove("hidden");
+            } else {
+                levelSection.classList.add("hidden");
+            }
+        }
+
+        function goBack() {
+            document.getElementById("levelSection").classList.add("hidden");
+            document.getElementById("languageSelect").value = "";
+        }
+    </script>
+
+</body>
+</html>
